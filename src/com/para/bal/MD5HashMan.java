@@ -11,11 +11,13 @@ public class MD5HashMan implements Runnable {
     private Thread t;
     private String threadName;
     private Project p;
+    private int id;
 
-    public MD5HashMan(String threadName, Project p)
+    public MD5HashMan(String threadName, Project p, int scanId)
     {
         this.threadName = threadName;
         this.p = p;
+        this.id = scanId;
 
     }
 
@@ -28,6 +30,11 @@ public class MD5HashMan implements Runnable {
             DataAccess da = new DataAccess();
             List<Parafile> files = da.getFiles(p);
 
+            //report start
+            da.addScanStat(id, threadName);
+            //get id for stat
+            int scanStatId  = da.getScanStatId(id, threadName);
+
             for(int i = 0; i < files.size(); i++)
             {
                 Parafile pf = files.get(i);
@@ -35,7 +42,10 @@ public class MD5HashMan implements Runnable {
                 da.setMD5Hash(fid, MD5Hasher.getMD5Checksum(pf.getPath()));
 
             }
-            System.out.println(threadName + " complete " + files.size());//need to manage jobs in db
+
+            //report stop
+            da.updateScanStat(scanStatId);
+
 
         }
         catch (Exception e)
@@ -47,7 +57,7 @@ public class MD5HashMan implements Runnable {
 
     public void start()
     {
-        System.out.println("Starting " +  threadName );
+
         if (t == null) {
             t = new Thread (this, threadName);
             t.run ();

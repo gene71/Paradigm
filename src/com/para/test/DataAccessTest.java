@@ -6,6 +6,7 @@ import com.para.model.Project;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.sql.PreparedStatement;
 import java.util.Iterator;
 import java.util.List;
 
@@ -116,5 +117,45 @@ class DataAccessTest {
         //so you need the directory returned when query for project id.
 
     }
+
+    @Test
+    void addScan() throws Exception
+    {
+        DataAccess da = new DataAccess();
+        da.addScan(3);
+        System.out.println(da.getLastInsertId());
+    }
+
+    @Test
+    void addScanStat() throws Exception
+    {
+        DataAccess da = new DataAccess();
+        da.addScanStat(1, "FileScan");
+        System.out.println(da.getLastInsertId());
+    }
+
+    @Test
+    void updateScanStat() throws Exception
+    {
+        DataAccess da = new DataAccess();
+        da.updateScanStat(1);
+
+    }
+
+    @Test
+    void truncateAll() throws Exception
+    {
+        DataAccess da = new DataAccess();
+        da.truncateAll();
+    }
+
+    @Test
+    void getScanStatID() throws Exception
+    {
+        DataAccess da = new DataAccess();
+        System.out.println(da.getScanStatId(2, "MD5Scan"));
+    }
+
+
 
 }
