@@ -21,7 +21,7 @@ public class DataAccess {
             Class.forName("com.mysql.cj.jdbc.Driver");
             // Setup the connection with the DB
             connect = DriverManager
-                    .getConnection("jdbc:mysql://192.168.176.147:3306", "root", "35dfgz^H*");
+                    .getConnection("jdbc:mysql://197.167.176.147:3306", "root", "pwd*");
 
 
         } catch (Exception e) {
